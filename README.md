@@ -7,4 +7,4 @@
  * and handles the submission of their answers.
 
 
- <img src="./readme-images/first-screen.png" width="400" alt="First Screen">
+ <img src="./readme-images/first-screen.png" width="200" alt="First Screen">
