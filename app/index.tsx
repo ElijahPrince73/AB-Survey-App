@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import Logo from '../assets/images/Anheuser-Busch-Logo.png';
 
@@ -18,8 +19,8 @@ export default function Index() {
       </View>
       {/* Button Section */}
       <View style={styles.buttonSection}>
-        <Pressable style={styles.button}>
-          <Text style={styles.buttonText}>START SURVEY</Text>
+        <Pressable style={styles.button} onPress={() => router.push('/login')}>
+          <Text style={styles.buttonText}>LOGIN</Text>
         </Pressable>
       </View>
     </View>
