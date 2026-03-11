@@ -9,11 +9,12 @@ const API_URL = process.env.EXPO_PUBLIC_API_URL;
 export default function Survey() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const { login } = useAuth();
 
   const handelLogin = async () => {
+    setErrorMessage(null)
     setLoading(true)
     try {
       const response = await fetch(`${API_URL}/api/authentication/login`, {
@@ -24,8 +25,11 @@ export default function Survey() {
         body: JSON.stringify({ email, password }),
       })
 
+      console.log(response);
+
       if (!response.ok) {
-        setError(true)
+        setErrorMessage('Invalid email or password')
+        setLoading(false)
         return
       }
 
@@ -33,13 +37,14 @@ export default function Survey() {
 
       login(data.token, data.data.user)
     } catch (error) {
-      console.log('Login Error', error);
+      console.log(error, 'ERROR');
+      // setLoading(false)
+      // setErrorMessage('Unable to connect. Please try again.')
     } finally {
       setLoading(false)
     }
-
   }
-
+  console.log(loading);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Welcome to Anheuser-Busch</Text>
@@ -54,7 +59,7 @@ export default function Survey() {
         onChangeText={setPassword}
         secureTextEntry
       />
-      {error && (<View><Text>Email or Password is incorrect</Text></View>)}
+      {errorMessage && (<View><Text>{errorMessage}</Text></View>)}
       <Pressable style={styles.button} onPress={handelLogin} disabled={loading}>
         <Text style={styles.buttonText}>Login</Text>
       </Pressable>
@@ -94,8 +99,8 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   buttonText: {
-    color: "white",
-    fontWeight: "700"
+    fontWeight: '700',
+    fontSize: 16,
   },
   registerText: {
     marginTop: 30,

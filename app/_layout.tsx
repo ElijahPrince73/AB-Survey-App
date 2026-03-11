@@ -8,6 +8,7 @@ const RootLayoutNav = () => {
   const segments = useSegments();
 
   useEffect(() => {
+    if (jwt === undefined || segments.length === 0) return;
     if (jwt === undefined) {
       // Still loading token, don't do anything
       return;
