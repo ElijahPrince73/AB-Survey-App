@@ -3,7 +3,7 @@ import * as SecureStore from "expo-secure-store";
 import { useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
-import { API_URL } from "@env";
+const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 export default function Survey() {
   const [email, setEmail] = useState("");
