@@ -1,3 +1,4 @@
+import { ApiError } from "./ApiError";
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 const request = async <T>(
@@ -14,14 +15,17 @@ const request = async <T>(
     headers["Authorization"] = `Bearer ${token}`;
   }
 
-  const response = await fetch(`${API_URL}/${route}`, {
+  const response = await fetch(`${API_URL}${route}`, {
     method,
     headers,
     body: body ? JSON.stringify(body) : undefined,
   });
 
   if (!response.ok) {
-    throw new Error(`Request failed with status ${response.status}`);
+    throw new ApiError(
+      `Request failed with status ${response.status}`,
+      response.status,
+    );
   }
 
   return response.json() as Promise<T>;
@@ -29,10 +33,8 @@ const request = async <T>(
 
 export const api = {
   post: <T>(route: string, body: object) => request<T>("POST", route, body),
-
   authPost: <T>(route: string, body: object, token: string) =>
     request<T>("POST", route, body, token),
-
   authGet: <T>(route: string, token: string) =>
     request<T>("GET", route, undefined, token),
 };
